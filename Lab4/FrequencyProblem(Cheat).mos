@@ -1,0 +1,84 @@
+model GraphColoring
+	uses "mmxprs"
+	
+	! Declare sets and parameters
+	declarations
+		N1: integer	! number of nodes
+		N2: integer	! number of nodes
+		N3: integer	! number of nodes
+		p1: real	! probability of edge creation
+		p2: real	! probability of edge creation
+		p3: real	! probability of edge creation
+	    V: set of integer	! Set of nodes
+	    E: array(V, V) of boolean	! E(u)(v) is 1 if there is an edge that connects u and v
+	    colors: array(V) of integer	! color(v) contains the color of the node v
+	    maxColor: mpvar	! max color value used
+	    minColor: mpvar	! min color value used
+	end-declarations
+	
+	! Define the number of nodes
+	N1 := 20
+	N2 := 40
+	N3 := 60
+	! Define the probability of edge creation
+	p1 := 0.1
+	p2 := 0.3
+	p3 := 0.5
+	! Set of nodes
+	V := {1..N2}
+	
+	! Set of colors for each node
+	forall(i in 1..N2) do
+	    colors(i) := 1
+	end-do
+ 
+	! Initialize the adjacency matrix
+	forall(u in V, v in V | u < v) do
+		if random < p2 then
+			E(u,v) := true
+			E(v,u) := true
+		else
+			E(u,v) := false
+			E(v,u) := false	
+		end-if
+	end-do
+	
+	! Show graph structure
+	writeln("Graph structure:")
+	forall(u in V, v in V | u < v) do
+		if E(u,v) = true then
+			writeln("Edge between Node ", u, " and Node ", v)
+		end-if
+	end-do
+	
+	forall(u in V, v in V | E(u,v) = true and u < v) do
+		if colors(v) - colors(u) = 0:
+			colors(v) := colors(v) + 2
+	end-do
+	
+	! Objective function: Minimize the number of colors used
+	bandwidth := (maxColor - minColor)
+	
+	! Constraints:
+	
+	forall(v in V) do
+		maxColor >= colors(v)
+		minColor <= colors(v)
+	end-do
+	
+	! Solve the problem
+	minimize(bandwidth)
+	
+	maxColor is_integer
+	minColor is_integer
+	
+	! Output the solution
+	writeln("\nOptimal Coloring:")
+	forall(v in V) do
+	    writeln("Node ", v, " is colored with color ", colors(v))
+	end-do
+	! Output the number of bandwidth used
+	writeln("Used bandwidth (", getsol(maxColor), ", ", getsol(minColor), ") is: ", getsol(maxColor) - getsol(minColor))
+	
+	writeln("========================")
+end-model

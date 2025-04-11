@@ -1,0 +1,72 @@
+model GraphClique
+	uses "mmxprs"
+	
+	! Declare sets and parameters
+	declarations
+		N1: integer	! number of nodes
+		N2: integer	! number of nodes
+		N3: integer	! number of nodes
+		p1: real	! probability of edge creation
+		p2: real	! probability of edge creation
+		p3: real	! probability of edge creation
+	    V: set of integer	! Set of nodes
+	    E: array(V, V) of boolean	! E(u)(v) is 1 if there is an edge that connects u and v
+	    x: array(V) of mpvar	! x(v) is 1 if the node v is inside the independent set
+	end-declarations
+	
+	! Define the number of nodes
+	N1 := 20
+	N2 := 40
+	N3 := 60
+	! Define the probability of edge creation
+	p1 := 0.1
+	p2 := 0.3
+	p3 := 0.5
+	! Set of nodes and colors
+	V := {1..N3}
+ 
+	! Initialize the adjacency matrix
+	forall(u in V, v in V | u < v) do
+		if random < p3 then
+			E(u,v) := true
+		end-if
+	end-do
+	
+	! Show graph structure
+	writeln("Graph structure:")
+	forall(u in V, v in V | u < v and E(u,v)) do
+		writeln("Edge between Node ", u, " and Node ", v)
+	end-do
+	
+	! Objective function: Maximize the size of the independent set
+	independentSetSize := sum(v in V) x(v)
+	
+	! Constraints:
+	!1. The nodes connected by an edge cannot be in the same independent set
+	forall(u in V, v in V | u < v and E(u,v)) do
+		x(u) + x(v) <= 1
+	end-do
+	
+	!2. The nodes that aren't connected between them can be in the same independent set
+	forall(u in V, v in V | u < v and E(u,v) = false) do
+		x(u) + x(v) <= 2
+	end-do
+	
+	! Variables must be binary
+	forall(v in V) x(v) is_binary
+	
+	! Solve the problem
+	maximize(independentSetSize) 
+	
+	! Print results
+    writeln("\nMaximum Independent Set:")
+    independent_nodes := sum(v in V) getsol(x(v))
+    forall(v in V | getsol(x(v)) = 1) do
+    	writeln("Node ", v, " is in the independent set")
+    end-do
+
+    ! Output the number of nodes in the maximum clique
+    writeln("\nMaximum independent set size (cardinality): ", independent_nodes)
+	
+	writeln("========================")
+end-model

@@ -1,0 +1,96 @@
+model GraphColoring
+	uses "mmxprs"
+	
+	! Declare sets and parameters
+	declarations
+		N1: integer	! number of nodes
+		N2: integer	! number of nodes
+		N3: integer	! number of nodes
+		p1: real	! probability of edge creation
+		p2: real	! probability of edge creation
+		p3: real	! probability of edge creation
+	    V: set of integer	! Set of nodes
+	    E: array(V, V) of boolean	! E(u)(v) is 1 if there is an edge that connects u and v
+	    C: set of integer	! Set of colors
+	    x: array(V, C) of mpvar	! x(v)(c) is 1 if the node v has the color c
+	    y: array(C) of mpvar	! y(c) is 1 if the color c is used in the graph
+	    maxColor: mpvar
+	end-declarations
+	
+	! Define the number of nodes
+	N1 := 20
+	N2 := 40
+	N3 := 60
+	! Define the probability of edge creation
+	p1 := 0.1
+	p2 := 0.3
+	p3 := 0.5
+	! Set of nodes
+	V := {1..N1}
+	C := {1..N1}
+ 
+	! Initialize the adjacency matrix
+	forall(u in V, v in V | u < v) do
+		if random < p2 then
+			E(u,v) := true
+		end-if
+	end-do
+	
+	! Show graph structure
+	writeln("Graph structure:")
+	forall(u in V, v in V | u < v and E(u,v)) do
+		writeln("Edge between Node ", u, " and Node ", v)
+	end-do
+	
+	! Objective function: Minimize the number of colors used
+	bandwidth := (maxColor - 1)
+	
+	! Variables must be integer
+	maxColor is_integer
+	! Variables must be binary
+	forall(v in V, c in C) x(v,c) is_binary
+	forall(c in C) y(c) is_binary
+	
+	! Constraints:
+	
+	! 1. Each node must be colored with exactly one color
+	forall(v in V) sum(c in C) x(v, c) = 1
+	
+	! 2. Adjacent nodes cannot have the same color or adjacent colors
+	forall(v in V, u in V, c in C | u < v and E(u,v)) do
+		x(u,c) + x(v,c) <= 1
+		if c > 1 then	! if i am not in the first color, check also the diagonal (no adjacent colors between adjacent nodes)
+			x(u,c) + x(v, c-1) <= 1
+			!x(v,c) + x(u, c-1) <= 1
+		end-if
+		if c < N1 then	! if i am not in the last color, check also the diagonal (no adjacent colors between adjacent nodes)
+			x(u,c) + x(v,c+1) <= 1
+			!x(v,c) + x(u,c+1) <= 1
+		end-if
+	end-do
+	
+	! 3. If a color is used for a node, it must be marked as used
+	forall(v in V, c in C) x(v, c) <= y(c)
+	
+	! 4. Determine the maximum color used (maxColor)
+	forall(c in C) do
+		! maxColor should be at least as large as the largest color used
+		maxColor >= c * y(c)
+	end-do
+	
+	! Solve the problem
+	minimize(bandwidth)
+	
+	! Output the solution
+	writeln("\nOptimal Coloring:")
+	forall(v in V , c in C | getsol(x(v,c)) = 1) do
+		writeln("Node ", v, " is colored with color ", c)
+	end-do
+	
+	! Output the number of colors used
+	num_colors := sum(c in C) round(getsol(y(c)))
+	writeln("Minimum number of colors used: ", num_colors)
+	writeln("Bandwidth (1, ", getsol(maxColor), "): ", getsol(bandwidth))	
+	writeln("========================")
+	
+end-model

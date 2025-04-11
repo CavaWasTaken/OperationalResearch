@@ -1,0 +1,72 @@
+Graph structure:
+Edge between Node 1 and Node 5
+Edge between Node 1 and Node 11
+Edge between Node 1 and Node 17
+Edge between Node 1 and Node 19
+Edge between Node 1 and Node 20
+Edge between Node 2 and Node 3
+Edge between Node 2 and Node 5
+Edge between Node 2 and Node 11
+Edge between Node 2 and Node 12
+Edge between Node 2 and Node 17
+Edge between Node 2 and Node 18
+Edge between Node 3 and Node 5
+Edge between Node 3 and Node 6
+Edge between Node 3 and Node 8
+Edge between Node 3 and Node 15
+Edge between Node 3 and Node 17
+Edge between Node 3 and Node 18
+Edge between Node 4 and Node 5
+Edge between Node 4 and Node 11
+Edge between Node 4 and Node 12
+Edge between Node 4 and Node 15
+Edge between Node 4 and Node 20
+Edge between Node 5 and Node 6
+Edge between Node 5 and Node 7
+Edge between Node 5 and Node 11
+Edge between Node 5 and Node 13
+Edge between Node 5 and Node 14
+Edge between Node 5 and Node 16
+Edge between Node 5 and Node 19
+Edge between Node 6 and Node 9
+Edge between Node 6 and Node 17
+Edge between Node 6 and Node 19
+Edge between Node 6 and Node 20
+Edge between Node 7 and Node 12
+Edge between Node 7 and Node 16
+Edge between Node 7 and Node 20
+Edge between Node 8 and Node 9
+Edge between Node 8 and Node 12
+Edge between Node 8 and Node 13
+Edge between Node 9 and Node 10
+Edge between Node 9 and Node 11
+Edge between Node 9 and Node 17
+Edge between Node 10 and Node 11
+Edge between Node 10 and Node 13
+Edge between Node 11 and Node 12
+Edge between Node 11 and Node 14
+Edge between Node 11 and Node 15
+Edge between Node 11 and Node 17
+Edge between Node 11 and Node 18
+Edge between Node 11 and Node 19
+Edge between Node 12 and Node 16
+Edge between Node 13 and Node 14
+Edge between Node 13 and Node 15
+Edge between Node 13 and Node 18
+Edge between Node 13 and Node 19
+Edge between Node 13 and Node 20
+Edge between Node 14 and Node 20
+Edge between Node 15 and Node 17
+Edge between Node 15 and Node 19
+Edge between Node 16 and Node 17
+Edge between Node 16 and Node 20
+Edge between Node 17 and Node 20
+
+Maximum Clique Found:
+Node 1 is in the clique
+Node 5 is in the clique
+Node 11 is in the clique
+Node 19 is in the clique
+
+Maximum clique size (cardinality): 4
+========================

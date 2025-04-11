@@ -1,0 +1,82 @@
+Graph structure:
+Edge between Node 1 and Node 2
+Edge between Node 1 and Node 25
+Edge between Node 2 and Node 12
+Edge between Node 2 and Node 34
+Edge between Node 3 and Node 17
+Edge between Node 3 and Node 33
+Edge between Node 3 and Node 37
+Edge between Node 3 and Node 38
+Edge between Node 4 and Node 7
+Edge between Node 4 and Node 10
+Edge between Node 4 and Node 16
+Edge between Node 4 and Node 22
+Edge between Node 4 and Node 23
+Edge between Node 4 and Node 32
+Edge between Node 4 and Node 33
+Edge between Node 4 and Node 38
+Edge between Node 5 and Node 11
+Edge between Node 5 and Node 18
+Edge between Node 5 and Node 39
+Edge between Node 5 and Node 40
+Edge between Node 6 and Node 21
+Edge between Node 7 and Node 39
+Edge between Node 8 and Node 11
+Edge between Node 8 and Node 12
+Edge between Node 8 and Node 15
+Edge between Node 8 and Node 19
+Edge between Node 8 and Node 23
+Edge between Node 8 and Node 26
+Edge between Node 8 and Node 29
+Edge between Node 8 and Node 40
+Edge between Node 9 and Node 27
+Edge between Node 11 and Node 29
+Edge between Node 12 and Node 21
+Edge between Node 12 and Node 23
+Edge between Node 12 and Node 29
+Edge between Node 12 and Node 34
+Edge between Node 12 and Node 39
+Edge between Node 13 and Node 26
+Edge between Node 13 and Node 30
+Edge between Node 14 and Node 15
+Edge between Node 14 and Node 17
+Edge between Node 14 and Node 20
+Edge between Node 14 and Node 30
+Edge between Node 14 and Node 32
+Edge between Node 14 and Node 34
+Edge between Node 14 and Node 38
+Edge between Node 15 and Node 31
+Edge between Node 16 and Node 28
+Edge between Node 16 and Node 34
+Edge between Node 16 and Node 38
+Edge between Node 17 and Node 18
+Edge between Node 17 and Node 25
+Edge between Node 18 and Node 29
+Edge between Node 19 and Node 40
+Edge between Node 20 and Node 38
+Edge between Node 21 and Node 30
+Edge between Node 21 and Node 40
+Edge between Node 22 and Node 23
+Edge between Node 22 and Node 32
+Edge between Node 22 and Node 37
+Edge between Node 23 and Node 31
+Edge between Node 23 and Node 39
+Edge between Node 24 and Node 25
+Edge between Node 24 and Node 26
+Edge between Node 24 and Node 29
+Edge between Node 25 and Node 30
+Edge between Node 27 and Node 39
+Edge between Node 28 and Node 37
+Edge between Node 29 and Node 36
+Edge between Node 33 and Node 36
+Edge between Node 34 and Node 39
+Edge between Node 35 and Node 37
+Edge between Node 35 and Node 38
+
+Maximum Clique Found:
+Node 12 is in the clique
+Node 34 is in the clique
+Node 39 is in the clique
+
+Maximum clique size (cardinality): 3
+========================
