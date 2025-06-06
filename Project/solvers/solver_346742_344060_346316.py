@@ -27,6 +27,8 @@ class solver_346742_344060_346316(AbstractSolver):
         Y = model.addVars(N_deposits+1, N_deposits+1, vtype=GRB.BINARY, name="Y")
         # Z - binary array sized as the number of supermarkets, z[i] = 1 means that supermarket i is unserved
         Z = model.addVars(N_supermarkets, vtype=GRB.BINARY, name="Z")
+        # P - integer array sized as the number of warehouses, u[i] is rappresent the position order of the warehouse i in the path
+        P = model.addVars(N_deposits, vtype=GRB.INTEGER, lb=1, ub=N_deposits, name="P")
 
         # Objective function is composed by three parts to be minimized:
         model.setObjective(
@@ -43,12 +45,12 @@ class solver_346742_344060_346316(AbstractSolver):
                 gp.quicksum(service[w][s] * X[w] for w in range(N_deposits)) >= 1 - Z[s],
                 name=f"unserved_def_{s}"
             )
-        # 2. The vehicle starts at the company depot (node 0)
+        # 2. The vehicle starts from the company
         model.addConstr(
             gp.quicksum(Y[0, j] for j in range(1, N_deposits + 1)) == 1,
             name="start_at_company"
         )
-        # 3. Each warehouse can only be visited if it is open
+        # 3. The vehicle ends at the company
         model.addConstr(
             gp.quicksum(Y[i, 0] for i in range(1, N_deposits + 1)) == 1,
             name="end_at_company"
@@ -62,12 +64,26 @@ class solver_346742_344060_346316(AbstractSolver):
                 gp.quicksum(Y[j, i] for j in range(N_deposits+1) if j != i) == X[i-1], name=f"in_{i}"
             )
 
-        # u = model.addVars(range(1, N+1), vtype=GRB.CONTINUOUS, lb=1, ub=N, name="u")
-        # for i in range(1, N+1):
-        #     for j in range(1, N+1):
-        #         if i != j:
-        #             model.addConstr(u[i] - u[j] + N * Y[i, j] <= N - 1, name=f"subtour_{i}_{j}")
+        # 5. Avoid sub-tours
+        for i in range(1, N_deposits + 1):
+            for j in range(1, N_deposits + 1):
+                if i != j:
+                    model.addConstr(
+                        P[i-1] - P[j-1] + N_deposits * Y[i, j] <= N_deposits - 1,
+                        name=f"subtour_{i}_{j}"
+                    )
 
+        # 6. Avoid self-loops
+        for i in range(N_deposits + 1):
+            model.addConstr(
+                Y[i, i] == 0,
+                name=f"no_self_loop_{i}"
+            )
 
+        # solve the model
+        model.optimize()
+
+        X = np.array([int(X[i].X) for i in range(N_deposits)])
+        Y = np.array([[int(Y[i, j].X) for j in range(N_deposits + 1)] for i in range(N_deposits + 1)])
 
         return X, Y

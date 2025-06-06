@@ -3,7 +3,7 @@ from environments import *
 from solvers import *
 from solutions import *
 
-instance_name = 'dummy_problem'
+instance_name = 'very_big_very_instance'
 
 inst = Instance(instance_name)
 env = Environment(inst)
